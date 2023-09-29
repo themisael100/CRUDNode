@@ -4,4 +4,4 @@ const mongoose = required('mongoose');
     name: {type: String, required: true},
     email: {type: String, required:true},
  })
- module.exports = mongoose.model('Client', clientSchema);
+ module.exports = mongoose.model('client', clientSchema);
