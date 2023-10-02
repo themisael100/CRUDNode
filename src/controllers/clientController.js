@@ -1,9 +1,10 @@
-const Client = require('../models(client');
+const Client = require('../models/client');
+
 
 //Obtener todos los clientes
 exports.getAllClients = async (req, res)=>{
 try{
-    const Client = await Client.find();
+    const clients = await Client.find();
     res.json(clients);
 }catch(error){
 res.status(500).json({error: 'Error al obtener los Clientes'});
@@ -20,32 +21,35 @@ if(!client){
 res.json(client);
     }catch(error){
 res.status(500).json({error: 'Error al obtener el cliente'});
-    }
+    }s
 };
 //Crear un nuevo cliente
-exports.createClient = async (req, res)=>{
+exports.createClient = async (req, res) => {
     try {
-        const newClient = new Client(req, res);
-        const saveClient = await newClient.save();
-        res.status(201).json(saveClient);
+        const newClient = new Client(req.body);
+        const savedClient = await newClient.save(); 
+        res.status(201).json(savedClient);
     } catch (error) {
-        res.status(500),json({error: 'Error al crear el cliente'})
+        res.status(500).json({ error: 'Error al crear el cliente' });
     }
 };
 //Actualizar un cliente existente 
-exports.updateClient = async(req, res)=>{
+exports.updateClient = async (req, res) => {
     try {
-       const updateClient=await Client.findByIdAnUpdate(req.params.id, req.body,{
-        new: true,
-       });
-       if(!updateClient){
-        return res.status(404).json({error:'Cliente no encontrado'});
-       }
-       res.json(updateClient);
+        const updateClient = await Client.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        if (!updateClient) {
+            return res.status(404).json({ error: 'Cliente no encontrado' });
+        }
+        res.json(updateClient);
     } catch (error) {
-        res.status(500).json({error: 'Error al actualizar el cliente'})
+        res.status(500).json({ error: 'Error al actualizar el cliente' });
     }
 };
+
 
 //Eliminar un cliente existente
 exports.deleteClient = async(req, res)=>{
